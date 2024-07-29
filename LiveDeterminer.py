@@ -24,11 +24,7 @@ def clear():
     else:
         _ = os.system('clear')
         
-def analyze_frame(frame):
-    img = cv2.resize(frame, (28, 28))
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    img = img / 255.0
-    img = img.reshape(1, 28, 28, 1)
+def analyze(img):
 
     pred = model(img)
 
@@ -45,6 +41,9 @@ mphands = mp.solutions.hands
 hands = mphands.Hands()
 mp_drawing = mp.solutions.drawing_utils
 
+
+DRAW_BOX = True
+OVERLAY_IMG = True
 
 
 while True:
@@ -80,16 +79,31 @@ while True:
 
         y_min = max(0, center[1] - int(max_diff/2 * k))
         y_max = min(h, center[1] + int(max_diff/2 * k))
-        
-        # mp_drawing.draw_landmarks(frame, hand_landmarks, mphands.HAND_CONNECTIONS)
 
         analysis_frame = frame[y_min:y_max, x_min:x_max]
+        analysis_frame = cv2.resize(analysis_frame, (28, 28))
+        analysis_frame = cv2.cvtColor(analysis_frame, cv2.COLOR_BGR2GRAY)
+        img = analysis_frame / 255.0
+        img = img.reshape(1, 28, 28, 1)
         
-        letter, confidence = analyze_frame(analysis_frame)
-
+        letter, confidence = analyze(img)
 
         # put bounding box
-        cv2.rectangle(frame, (x_min, y_min), (x_max, y_max), (0, 255, 0), 2)
+        if DRAW_BOX:
+            cv2.rectangle(frame, (x_min, y_min), (x_max, y_max), (0, 255, 0), 2)
+        
+        # overlay img in the top left corner
+        if OVERLAY_IMG:
+            scale = 4
+            x_offset = 10
+            y_offset = 40
+            overlay = cv2.cvtColor(analysis_frame, cv2.COLOR_GRAY2BGR)
+            overlay = cv2.resize(overlay, (28*scale, 28*scale))
+
+            frame[y_offset:28*scale+y_offset, x_offset:28*scale+x_offset] = overlay
+            
+
+
 
         # put text
         cv2.putText(frame, f"Letter: {letter}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
