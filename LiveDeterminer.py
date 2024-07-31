@@ -93,10 +93,10 @@ while True:
             cv2.rectangle(frame, (x_min, y_min), (x_max, y_max), (0, 255, 0), 2)
         
         # overlay img in the top left corner
+        x_offset = 10
+        y_offset = 40
         if OVERLAY_IMG:
             scale = 4
-            x_offset = 10
-            y_offset = 40
             overlay = cv2.cvtColor(analysis_frame, cv2.COLOR_GRAY2BGR)
             overlay = cv2.resize(overlay, (28*scale, 28*scale))
 
@@ -106,7 +106,7 @@ while True:
 
 
         # put text
-        cv2.putText(frame, f"Letter: {letter}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+        cv2.putText(frame, f"Letter: {letter}", (x_offset, y_offset-10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
             
     cv2.imshow('Frame', frame)
