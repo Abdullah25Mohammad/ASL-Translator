@@ -3,13 +3,9 @@ Code is taken from https://towardsdatascience.com/sign-language-recognition-with
 Only slight modifications were made
 """
 
-import matplotlib.pyplot as plt
-import seaborn as sns
 from tf_keras.models import Sequential
 from tf_keras.layers import Dense, Conv2D , MaxPool2D , Flatten , Dropout , BatchNormalization
 from tf_keras.preprocessing.image import ImageDataGenerator
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report,confusion_matrix
 import pandas as pd
 
 train_df = pd.read_csv("sign_mnist_train.csv")
