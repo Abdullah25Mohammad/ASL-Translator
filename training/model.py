@@ -1,8 +1,3 @@
-"""
-Code is taken from https://towardsdatascience.com/sign-language-recognition-with-advanced-computer-vision-7b74f20f3442?gi=f18491eba80d
-Only slight modifications were made
-"""
-
 from tf_keras.models import Sequential
 from tf_keras.layers import Dense, Conv2D , MaxPool2D , Flatten , Dropout , BatchNormalization
 from tf_keras.preprocessing.image import ImageDataGenerator
